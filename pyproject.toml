@@ -1,0 +1,86 @@
+[project]
+name = "viber-trader-optimizer"
+version = "0.1.0"
+description = "A portfolio optimization service that uses the Black-Litterman model and Monte Carlo simulation to optimize portfolio allocation. Deployed as a Cloud Run service."
+authors = [
+    {name = "Alex Honchar", email = "alex.honchar@neurons-lab.com"},
+    {name = "Julius Haas", email = "juliushaas91@gmail.com"},
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "litestar[standard]>=2.12.1",
+    "matplotlib>=3.10.3",
+    "pandas>=2.2.3",
+    "pyportfolioopt>=1.5.6",
+    "toml>=0.10.2",
+    "yfinance>=0.2.61",
+]
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+assets = []
+build_command_env = []
+commit_message = "chore(release): {version}"
+commit_parser = "angular"
+logging_use_named_masks = true
+major_on_zero = false
+allow_zero_version = true
+no_git_verify = false
+tag_format = "v{version}"
+
+[tool.semantic_release.branches.main]
+match = "(main)"
+prerelease_token = "rc"
+prerelease = false
+
+[tool.semantic_release.changelog]
+changelog_file = ""
+exclude_commit_patterns = []
+mode = "init"
+insertion_flag = "<!-- version list -->"
+template_dir = "templates"
+
+[tool.semantic_release.changelog.default_templates]
+changelog_file = "CHANGELOG.md"
+output_format = "md"
+
+[tool.semantic_release.changelog.environment]
+block_start_string = "{%"
+block_end_string = "%}"
+variable_start_string = "{{"
+variable_end_string = "}}"
+comment_start_string = "{#"
+comment_end_string = "#}"
+trim_blocks = false
+lstrip_blocks = false
+newline_sequence = "\n"
+keep_trailing_newline = false
+extensions = []
+autoescape = false
+
+[tool.semantic_release.commit_author]
+env = "GIT_COMMIT_AUTHOR"
+default = "github-actions <actions@github.com>"
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = ["build", "chore", "ci", "docs", "feat", "fix", "perf", "style", "refactor", "test"]
+minor_tags = ["feat"]
+patch_tags = ["fix", "perf"]
+default_bump_level = 0
+
+[tool.semantic_release.remote]
+name = "origin"
+type = "github"
+ignore_token_for_push = false
+insecure = false
+
+[tool.semantic_release.publish]
+dist_glob_patterns = ["dist/*"]
+upload_to_vcs_release = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "ruff>=0.9.7",
+]
