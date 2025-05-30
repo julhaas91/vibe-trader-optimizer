@@ -25,7 +25,9 @@ async def optimize_portfolio(request: Request) -> dict:
     sigma_max = data.get("sigma_max", 0.20)
     cash_min = data.get("cash_min", 0.05)
     upper_bounds = data.get("upper_bounds", 0.5)
-    
+    max_iterations = data.get("max_iterations", 5)
+    scenarios = data.get("scenarios", 100)
+
     # Initialize optimizer
     optimizer = PortfolioOptimizer(
         tickers=tickers,
@@ -36,24 +38,15 @@ async def optimize_portfolio(request: Request) -> dict:
         worst_day_limit=worst_day_limit,
         sigma_max=sigma_max,
         cash_min=cash_min,
-        upper_bounds=upper_bounds
+        upper_bounds=upper_bounds,
+        max_iterations=max_iterations,
+        scenarios=scenarios,
     )
     
     # Run optimization
     results = optimizer.optimize(save_outputs=False)
-    
-    # Format response
-    response = {
-        "optimal_weights": {ticker: float(weight) for ticker, weight in zip(tickers, results["results"]["weights"])},
-        "metrics": {
-            "probability_of_success": float(results["results"]["success_prob"]),
-            "average_drawdown": float(results["results"]["avg_drawdown"]),
-            "worst_day": float(results["results"]["avg_worst_day"]),
-            "volatility": float(results["results"]["volatility"]),
-            "average_final_value": float(results["results"]["avg_final"])
-        }
-    }
-    return json.dumps(response)
+
+    return json.dumps(results)
 
 @post("/process")
 async def process_message(request: Request) -> dict:

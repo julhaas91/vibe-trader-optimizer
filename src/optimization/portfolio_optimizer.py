@@ -18,30 +18,32 @@ from scipy.optimize import differential_evolution  # type: ignore
 class PortfolioOptimizer:
     """A class for optimizing portfolio allocation using Black-Litterman model and Monte Carlo simulation."""
     
-    def __init__(self, 
-                 tickers: List[str] = ["SPY", "QQQ", "TLT", "GLD", "BIL"],
-                 horizon_years: int = 10,
-                 start_portfolio: float = 100_000,
-                 target_portfolio: float = 200_000,
-                 max_drawdown: float = 0.25,
-                 worst_day_limit: float = 0.10,
-                 sigma_max: float = 0.20,
-                 cash_min: float = 0.05,
-                 upper_bounds: float = 0.5,
-                 cash_ticker: str = "BIL",
-                 scenarios: int = 10_000,
-                 mc_freq: int = 12,
-                 lambda_sigma: float = 100,
-                 lambda_drawdown: float = 500,
-                 lambda_worst_day: float = 300,
-                 lambda_cash: float = 1000,
-                 output_dir: Optional[str] = None,
-                 log_prefix: str = "optimization",
-                 max_iterations: int = 100,
-                 # Black-Litterman view parameters
-                 bl_view_matrix_P: Optional[NDArray[Any]] = None,
-                 bl_view_vector_Q: Optional[NDArray[Any]] = None,
-                 bl_view_uncertainty_omega: Optional[NDArray[Any]] = None) -> None:
+    def __init__(
+        self,
+        max_iterations: int,
+        scenarios: int,
+        tickers: List[str] = ["SPY", "QQQ", "TLT", "GLD", "BIL"],
+        horizon_years: int = 10,
+        start_portfolio: float = 100_000,
+        target_portfolio: float = 200_000,
+        max_drawdown: float = 0.25,
+        worst_day_limit: float = 0.10,
+        sigma_max: float = 0.20,
+        cash_min: float = 0.05,
+        upper_bounds: float = 0.5,
+        cash_ticker: str = "BIL",
+        mc_freq: int = 12,
+        lambda_sigma: float = 100,
+        lambda_drawdown: float = 500,
+        lambda_worst_day: float = 300,
+        lambda_cash: float = 1000,
+        output_dir: Optional[str] = None,
+        log_prefix: str = "optimization",
+        # Black-Litterman view parameters
+        bl_view_matrix_P: Optional[NDArray[Any]] = None,
+        bl_view_vector_Q: Optional[NDArray[Any]] = None,
+        bl_view_uncertainty_omega: Optional[NDArray[Any]] = None,
+    ) -> None:
         """Initialize the portfolio optimizer with configuration parameters.
         
         Args:
