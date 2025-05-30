@@ -45,19 +45,8 @@ async def optimize_portfolio(request: Request) -> dict:
     
     # Run optimization
     results = optimizer.optimize(save_outputs=False)
-    
-    # Format response
-    response = {
-        "optimal_weights": {ticker: float(weight) for ticker, weight in zip(tickers, results["results"]["weights"])},
-        "metrics": {
-            "probability_of_success": float(results["results"]["success_prob"]),
-            "average_drawdown": float(results["results"]["avg_drawdown"]),
-            "worst_day": float(results["results"]["avg_worst_day"]),
-            "volatility": float(results["results"]["volatility"]),
-            "average_final_value": float(results["results"]["avg_final"])
-        }
-    }
-    return json.dumps(response)
+
+    return json.dumps(results)
 
 @post("/process")
 async def process_message(request: Request) -> dict:
