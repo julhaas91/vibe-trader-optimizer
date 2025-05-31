@@ -215,7 +215,7 @@ class PDFDashboardGenerator:
             vol = results['results'].get('volatility', 0.1)
             risk_contrib = [w * vol for w in weights]
             
-            bars2 = ax2.barh(y_pos, risk_contrib, color=sns.color_palette("viridis", len(tickers)))
+            ax2.barh(y_pos, risk_contrib, color=sns.color_palette("viridis", len(tickers)))
             ax2.set_yticks(y_pos)
             ax2.set_yticklabels(tickers)
             ax2.set_xlabel('Risk Contribution')
