@@ -1,0 +1,31 @@
+name: "🚦Validation (Linting, Formatting, Testing)"
+# author: "Julius Haas <juliushaas91@gmail.de>"
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    concurrency: release
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: "🛠️ Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+        with:
+          version: ">= 363.0.0"
+
+      - name: "🔄 Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "📦 Setup Project Environment"
+        uses: ./.github/actions/setup-project-environment
+
+      - name: "🚦Validate Code"
+        uses: ./.github/actions/lint-format-test-code

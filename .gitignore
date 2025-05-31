@@ -8,3 +8,12 @@ wheels/
 
 # Virtual environments
 .venv
+
+# macOS system files
+.DS_Store
+
+# IDE settings
+.vscode/
+
+# Service credentials
+service-key.json
